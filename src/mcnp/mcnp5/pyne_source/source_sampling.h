@@ -2,10 +2,10 @@
 /// \author Elliott Biondo (biondo\@wisc.edu)
 ///
 /// \brief Mesh-based Monte Carlo source sampling.
-/// 
+///
 /// The Sampler class is used for Monte Carlo source sampling from mesh-based
 /// sources. The source density distribution and optional biased source density
-/// distribution are defined on a MOAB mesh. Upon instantiation, a Sampler  
+/// distribution are defined on a MOAB mesh. Upon instantiation, a Sampler
 /// object reads this mesh and creates an alias table for randomly sampling
 /// particle birth parameters. The particle_birth member function is supplied 
 /// with 6 pseudo-random numbers and returns the position, energy, and weight 
@@ -31,7 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-#include <stdexcept> 
+#include <stdexcept>
 #include <sstream>
 #include <string>
 
@@ -106,9 +106,9 @@ namespace pyne {
     ///                 bounds for N energy groups
     /// \param uniform If false, analog sampling is used. If true, uniform
     ///                sampling is used.
-    Sampler(std::string filename, 
-            std::string src_tag_name, 
-            std::vector<double> e_bounds, 
+    Sampler(std::string filename,
+            std::string src_tag_name,
+            std::vector<double> e_bounds,
             bool uniform);
     /// Constuctor for analog and uniform sampling
     /// \param filename The path to the MOAB mesh (.h5m) file
@@ -123,9 +123,9 @@ namespace pyne {
     ///                       within a mesh volume element are sampled equally.
     /// \param uweight If false, biased_weights are calculated as pdf/biased_pdf.
     /// If true, weights are read from h5m file.
-    Sampler(std::string filename, 
-            std::string src_tag_name, 
-            std::vector<double> e_bounds, 
+    Sampler(std::string filename,
+            std::string src_tag_name,
+            std::vector<double> e_bounds,
             std::string bias_tag_name,
 	    bool uweight);
     /// Samples particle birth parameters
