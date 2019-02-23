@@ -32,13 +32,13 @@ void pyne::particle_birth_(double* rands,
                            double* z,
                            double* e,
                            double* w) {
-   std::vector<double> rands2(rands, rands + 6);
-   std::vector<double> samp = sampler->particle_birth(rands2);
-   *x = samp[0];
-   *y = samp[1];
-   *z = samp[2];
-   *e = samp[3];
-   *w = samp[4];
+  std::vector<double> rands2(rands, rands + 6);
+  std::vector<double> samp = sampler->particle_birth(rands2);
+  *x = samp[0];
+  *y = samp[1];
+  *z = samp[2];
+  *e = samp[3];
+  *w = samp[4];
 }
 
 std::vector<double> pyne::read_e_bounds(std::string e_bounds_file) {
@@ -124,8 +124,7 @@ void pyne::Sampler::setup() {
   } else if (num_tet == num_ves) {
     ve_type = moab::MBTET;
     verts_per_ve = 4;
-  }
-  else
+  } else
     throw std::invalid_argument("Mesh file must contain only tets or hexes.");
 
   // Process all the spatial and tag data and create an alias table.
@@ -190,7 +189,7 @@ void pyne::Sampler::mesh_tag_data(moab::Range ves,
   int i, j;
   for (i = 0; i < num_ves; ++i) {
     for (j = 0; j < num_e_groups; ++j) {
-       pdf[i * num_e_groups + j] *= volumes[i];
+      pdf[i * num_e_groups + j] *= volumes[i];
     }
   }
   normalize_pdf(pdf);
@@ -215,7 +214,7 @@ void pyne::Sampler::mesh_tag_data(moab::Range ves,
     normalize_pdf(bias_pdf);
     //  Create alias table based off biased pdf and calculate birth weights.
     biased_weights.resize(num_ves * num_e_groups);
-    for (i=0; i<num_ves * num_e_groups; ++i) {
+    for (i = 0; i < num_ves * num_e_groups; ++i) {
       biased_weights[i] = pdf[i] / bias_pdf[i];
     }
     at = new AliasTable(bias_pdf);
@@ -234,8 +233,8 @@ std::vector<double> pyne::Sampler::read_bias_pdf(moab::Range ves,
       double q_in_group;
       for (i = 0; i < num_ves; ++i) {
         q_in_group = 0;
-        for (j = 0; j < num_e_groups; ++j){
-          q_in_group += pdf[i*num_e_groups + j];
+        for (j = 0; j < num_e_groups; ++j) {
+          q_in_group += pdf[i * num_e_groups + j];
         }
         if (q_in_group > 0) {
           for (j = 0; j < num_e_groups; ++j) {
@@ -292,9 +291,9 @@ std::vector<double> pyne::Sampler::read_bias_pdf(moab::Range ves,
       } else {
         throw std::length_error("Length of bias tag must equal length of the"
                                 "  source tag, or 1.");
-      }
-    }
-    return bias_pdf;
+     }
+   }
+   return bias_pdf;
 }
 
 moab::CartVect pyne::Sampler::sample_xyz(int ve_idx, std::vector<double> rands) {
@@ -342,9 +341,9 @@ double pyne::Sampler::sample_w(int pdf_idx) {
 void pyne::Sampler::normalize_pdf(std::vector<double>& pdf) {
   double sum = 0;
   int i;
-  for (i = 0; i < num_ves*num_e_groups; ++i)
+  for (i = 0; i < num_ves * num_e_groups; ++i)
     sum += pdf[i];
-  for (i = 0; i < num_ves*num_e_groups; ++i)
+  for (i = 0; i < num_ves * num_e_groups; ++i)
     pdf[i] /= sum;
 }
 
@@ -371,13 +370,13 @@ pyne::AliasTable::AliasTable(std::vector<double> p) {
   std::vector<double> large(n);
   int i, a, g;
 
-  for (i = 0; i < n; ++i) 
+  for (i = 0; i < n; ++i)
     p[i] *= n;
 
   // Set separate index lists for small and large probabilities:
   int n_s = 0;
   int n_l = 0;
-  for (i = n-1; i >= 0; --i) {
+  for (i = n - 1; i >= 0; --i) {
     // at variance from Schwarz, we revert the index order
     if (p[i] < 1)
       small[n_s++] = i;
